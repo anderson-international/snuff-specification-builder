@@ -7,6 +7,8 @@ import { products } from "../data/products"
 export default function SnuffSpecForm() {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [formData, setFormData] = useState({
+    productName: "",
+    productSku: "",
     // We'll add more fields here later
   })
 
@@ -19,14 +21,6 @@ export default function SnuffSpecForm() {
     }))
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }))
-  }
-
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log("Form submitted:", formData)
@@ -34,9 +28,9 @@ export default function SnuffSpecForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-md mx-auto">
       <div>
-        <label htmlFor="product" className="block text-sm font-medium text-gray-700">
+        <label htmlFor="product" className="block text-sm font-medium text-gray-700 mb-1">
           Select Product
         </label>
         <Select
@@ -45,7 +39,8 @@ export default function SnuffSpecForm() {
           value={selectedProduct}
           onChange={handleProductChange}
           placeholder="Search for a product..."
-          className="mt-1"
+          className="basic-single"
+          classNamePrefix="select"
           formatOptionLabel={({ label, value }) => (
             <div className="flex justify-between">
               <span>{label}</span>
@@ -57,17 +52,15 @@ export default function SnuffSpecForm() {
 
       {selectedProduct && (
         <div className="bg-gray-100 p-4 rounded">
-          <h3 className="font-semibold">Selected Product:</h3>
+          <h3 className="font-semibold mb-2">Selected Product:</h3>
           <p>Name: {selectedProduct.label}</p>
           <p>SKU: {selectedProduct.value}</p>
         </div>
       )}
 
-      {/* We'll add more form fields here later */}
-
       <button
         type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+        className="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={!selectedProduct}
       >
         Submit Specification
